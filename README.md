@@ -23,5 +23,5 @@ It took approximately 2 hours on AWS Elastic Compute Cloud (EC2) instance with a
 Note: Obtain a UMLS installation This tool requires you to have a valid UMLS installation on disk. To install UMLS, you must first obtain a license from the National Library of Medicine; then you should download all UMLS files from this page; finally, you can install UMLS using the MetamorphoSys tool as explained in this guide. The installation can be removed once the system has been initialized.
 Reference: [UMLS installation](https://github.com/Georgetown-IR-Lab/QuickUMLS/blob/master/README.md)
 
-We requested a license on April 15, 2023. It may take three business days. 
+**We requested a license on April 15, 2023. It may take three business days.**
 
