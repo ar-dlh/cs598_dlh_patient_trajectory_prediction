@@ -10,12 +10,27 @@ NOTEEVENTS.csv
 ADMISSIONS.csv
 DIAGNOSES_ICD.csv
 
+
+## Install the required packages
+```
+python3 -m venv venv  
+source venv/bin/activate  
+pip install -r requirements.txt  
+
+```
+
 ## Data Preprocessing
 
 1. Place the input files in the same folder.
 2. Run noteEvents_preproc.py script with input (NOTEEVENTS.csv). It will produce the output file (output.csv)
 It took approximately 2 hours on AWS Elastic Compute Cloud (EC2) instance with a c5.12xlarge instance type.
+```
+python3 noteEvents_preproc.py NOTEEVENTS.csv &  
+```
 3. Run MIMIC_smart_splitter.py (with output.csv as input): splits the preprocessed text into files of 50 Mb without cutting any notes - it took approx. 15 mins.
+```
+python3 MIMIC_smart_splitter.py output.csv &  
+```
 4. At this step, we have a new folder called "data," which contains two folders. The first one (chunkssmall) contains all files, and the other one is empty.
 
 ## CUI Recognizer with QuickUMLS (concept extraction)
