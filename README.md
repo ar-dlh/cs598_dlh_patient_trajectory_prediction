@@ -35,8 +35,21 @@ python3 MIMIC_smart_splitter.py output.csv &
 
 ## CUI Recognizer with QuickUMLS (concept extraction)
 
-Note: Obtain a UMLS installation This tool requires you to have a valid UMLS installation on disk. To install UMLS, you must first obtain a license from the National Library of Medicine; then you should download all UMLS files from this page; finally, you can install UMLS using the MetamorphoSys tool as explained in this guide. The installation can be removed once the system has been initialized.
 Reference: [UMLS installation](https://github.com/Georgetown-IR-Lab/QuickUMLS/blob/master/README.md)
 
-**We requested a license on April 15, 2023. It may take three business days.**
+## Models Training and Validation
 
+Due to license constraints, we have not uploaded the data sets on the GitHub link. 
+
+```
+nohup python3 02_FFN_diagprediction.py --nEpochs 100 --withCCS 0 > org_withccs_epochs100.log &
+nohup python3 02_FFN_diagprediction.py --nEpochs 100 --withCCS 1 > org_withoutccs_epochs100.log &
+nohup python3 02_FFN_diagprediction.py --nEpochs 100 --withCCS 0  --lr 0.03 > org_withccs_epochs100_lr3.log &
+nohup python3 02_FFN_diagprediction.py --nEpochs 100 --withCCS 0  --lr 0.03 --dropOut 0.7 > org_withccs_epochs100_lr3_dropout07.log &
+
+nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 0 > mod_withccs_epochs100.log &
+nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 1 > mod_withoutccs_epochs100.log &
+nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 0  --lr 0.03 > mod_withccs_epochs100_lr3.log &
+nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 0  --lr 0.03 --dropOut 0.7 > mod_withccs_epochs100_lr3_dropout07.log &
+
+```
