@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as dt
 from torch.autograd import Variable
+from torch.nn.utils.rnn import pad_sequence
 import numpy as np
 from tqdm import tqdm_notebook as tqdm
 from sklearn.metrics import roc_auc_score as roc
@@ -24,10 +25,10 @@ class Network(nn.Module):
 
         # Inputs to hidden layer linear transformation
         ARGS.inputdim = ARGS.numberOfInputCUIInts + ARGS.numberOfInputCCSInts if ARGS.withCCS else ARGS.numberOfInputCUIInts
-        self.fc1 = nn.Linear(ARGS.inputdim, 10000)
-        self.fc2 = nn.Linear(10000, 4096)
-        self.fc3 = nn.Linear(4096, 1024)
-        self.fc4 = nn.Linear(1024, ARGS.numberOfOutputCodes)
+        self.fc1 = nn.Linear(ARGS.inputdim, 2048)
+        self.fc2 = nn.Linear(2048, 1024)
+        self.fc3 = nn.Linear(1024, 512)
+        self.fc4 = nn.Linear(512, ARGS.numberOfOutputCodes)
 
         # Define sigmoid activation and softmax output
         # self.sigmoid = nn.Sigmoid()
@@ -39,8 +40,6 @@ class Network(nn.Module):
         x = torch.relu(self.fc1(x))
         x = self.dropout(x)
         x = torch.relu(self.fc2(x))
-        x = self.dropout(x)
-        x = torch.relu(self.fc3(x))
         x = self.dropout(x)
         x = torch.relu(self.fc3(x))
         x = self.dropout(x)
@@ -173,10 +172,15 @@ def train():
             optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
             # Train loader
-            numplist = np.array(X_train)
+            print(len(X_train[0]))
+            print(len(X_train[1]))
+            print(len(X_train[2]))
+            print(len(X_train[3]))
+            print(type(X_train[0]))
+            numplist = np.array(X_train, dtype=object)
             arrX = np.concatenate(numplist).tolist()
             tensor_x = torch.Tensor(arrX).cuda()
-            numplist = np.array(Y_train)
+            numplist = np.array(Y_train, dtype=object)
             arrY = np.concatenate(numplist).tolist()
             tensor_y = torch.Tensor(arrY).cuda()
             print("Shape X:", np.shape(arrX), "Shape Y:", np.shape(arrY))
@@ -200,6 +204,8 @@ def train():
                 shuffle=True)
 
             # Training
+            print(ARGS.inputdim)
+            print(ARGS.numberOfOutputCodes)
             for epoch in range(epochs):
                 for batch_idx, (data, target) in enumerate(train_loader):
                     data, target = Variable(data), Variable(target)
@@ -343,3 +349,5 @@ if __name__ == '__main__':
     global ARGS
     ARGS = parse_arguments()
     train()
+    
+    
