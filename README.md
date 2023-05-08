@@ -53,3 +53,7 @@ nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 0  --lr 
 nohup python3 02_FFN_diagprediction_modified.py --nEpochs 100 --withCCS 0  --lr 0.03 --dropOut 0.7 > mod_withccs_epochs100_lr3_dropout07.log &
 
 ```
+
+## Results
+
+![Alt Text](result_image/Screenshot%202023-05-08%20160226.png)
